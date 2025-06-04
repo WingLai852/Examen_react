@@ -1,14 +1,22 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import ProductCard from "./components/ProductCard.js";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Text>Welcome to the Mobile App!</Text>
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+
+      <View style={styles.row}>
+        <ProductCard />
+        <ProductCard />
+      </View>
+
+      <View style={styles.row}>
+        <ProductCard />
+        <ProductCard />
+      </View>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -18,13 +26,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 50,
+    paddingHorizontal: 10,
+    justifyContent: "flex-start",
   },
-  productRow: {
+  row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
     marginBottom: 20,
   },
   productColumn: {
