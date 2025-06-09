@@ -1,37 +1,41 @@
-import React from "react";
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 
-const DetailsScreen = () => {
+const DetailsScreen = ({route}) => {
+  const { title, description, price } = route.params;
+  const [quantity, setQuantity] = useState(1); 
+
+  const increaseQuantity = () => setQuantity(quantity + 1);
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+  // Ensure price is a number to avoid NaN
+  const numericPrice = Number(price);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        source={require("../images/snowboard1.webp")}
-        style={styles.image}
-      />
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>{description}</Text>
+        <Text style={styles.price}>{price}</Text>
+      </ScrollView>
 
-      <Text style={styles.title}>Snowboard 1</Text>
-      <Text style={styles.subtitle}>Perfect voor beginnende snowboarders</Text>
-
-      <View style={styles.infoBox}>
-        <Text style={styles.label}>Beschrijving:</Text>
-        <Text style={styles.text}>
-          Deze snowboard is ontworpen voor beginners met een stabiele vorm en makkelijk te besturen flex. Ideaal voor wie net begint op de piste.
-        </Text>
-
-        <Text style={styles.label}>Merk:</Text>
-        <Text style={styles.text}>SnowPro X</Text>
-
-        <Text style={styles.label}>Beschikbaarheid:</Text>
-        <Text style={styles.text}>Op voorraad</Text>
-
-        <Text style={styles.label}>Prijs:</Text>
-        <Text style={styles.price}>€400</Text>
+      <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginVertical: 16 }}>
+        <TouchableOpacity style={styles.button} onPress={decreaseQuantity}>
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        <Text style={{ marginHorizontal: 16, fontSize: 18 }}>{quantity}</Text>
+        <TouchableOpacity style={styles.button} onPress={increaseQuantity}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Toevoegen aan winkelmandje</Text>
-      </TouchableOpacity>
-    </ScrollView>
+      <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "bold", marginBottom: 16 }}>
+        Totaal: euro {price * quantity}
+      </Text>
+    </View>
   );
 };
 

@@ -2,27 +2,24 @@ import React from "react";
 import { View, Text, Image, StyleSheet,TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const ProductCard = () => {
+const ProductCard = ({ title, image, description, subtitle, price, onPress }) => {
     const navigation = useNavigation();
     return (
         <View style={styles.card}>
-        <Image
-            source={require("../images/snowboard1.webp")}
-            style={styles.image}
-        />
-        <Text style={styles.title}>snowboard1</Text>
-        <Text style={styles.description}>Best snowboarder for beginners</Text>
-        <Text style={styles.prijs}>Prijs</Text>
-        <Text style={styles.price}>€400</Text>
+            <Text style={styles.title}>{title}</Text>
+            <Image source={image} style={styles.image} />
+            <Text style={styles.description}>{description}</Text>
+            <Text style={styles.prijs}>{price}</Text>
+
         <TouchableOpacity 
                 style={styles.button}
-                onPress={() => navigation.navigate('Details')}
+                onPress={onPress}
                 >
                 <Text style={styles.buttonText}>Bekijk product</Text>
                 </TouchableOpacity>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
    card:{
