@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from "react-native";
 
 const DetailsScreen = ({route}) => {
-  const { title, description, price } = route.params;
+  const { title, description, price, image } = route.params;
   const [quantity, setQuantity] = useState(1); 
 
   const increaseQuantity = () => setQuantity(quantity + 1);
@@ -19,6 +19,7 @@ const DetailsScreen = ({route}) => {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{description}</Text>
+        <Image source={image} style={styles.image} />
         <Text style={styles.price}>{price}</Text>
       </ScrollView>
 
