@@ -1,41 +1,46 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from "react-native";
 
-const DetailsScreen = ({route}) => {
+const DetailsScreen = ({ route }) => {
   const { title, description, price, image } = route.params;
-  const [quantity, setQuantity] = useState(1); 
+  const [quantity, setQuantity] = useState(1);
 
-  const increaseQuantity = () => setQuantity(quantity + 1);
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-  // Ensure price is a number to avoid NaN
+  const increaseQuantity = () => setQuantity((q) => q + 1);
+  const decreaseQuantity = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
+
   const numericPrice = Number(price);
+  const total = (numericPrice * quantity).toFixed(2);
+
+  // Ondersteuning voor zowel local require als { uri: ... }
+  const displayImage =
+    typeof image === "number" ? image : { uri: image };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView contentContainerStyle={styles.container}>
+        <Image source={displayImage} style={styles.image} />
+
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.subtitle}>{description}</Text>
-        <Image source={image} style={styles.image} />
-        <Text style={styles.price}>{price}</Text>
+        <Text style={styles.description}>{description}</Text>
+
+        <Text style={styles.price}>€ {numericPrice.toFixed(2)}</Text>
       </ScrollView>
 
-      <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginVertical: 16 }}>
-        <TouchableOpacity style={styles.button} onPress={decreaseQuantity}>
-          <Text style={styles.buttonText}>-</Text>
-        </TouchableOpacity>
-        <Text style={{ marginHorizontal: 16, fontSize: 18 }}>{quantity}</Text>
-        <TouchableOpacity style={styles.button} onPress={increaseQuantity}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.bottomSection}>
+        <View style={styles.quantityContainer}>
+          <TouchableOpacity style={styles.button} onPress={decreaseQuantity}>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableOpacity>
 
-      <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "bold", marginBottom: 16 }}>
-        Totaal: euro {price * quantity}
-      </Text>
+          <Text style={styles.quantityText}>{quantity}</Text>
+
+          <TouchableOpacity style={styles.button} onPress={increaseQuantity}>
+            <Text style={styles.buttonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.totalText}>Totaal: € {total}</Text>
+      </View>
     </View>
   );
 };
@@ -43,7 +48,6 @@ const DetailsScreen = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: "#fff",
     alignItems: "center",
   },
   image: {
@@ -51,49 +55,58 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 10,
     marginBottom: 20,
+    resizeMode: "cover",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
+    marginBottom: 10,
   },
-  subtitle: {
+  description: {
     fontSize: 16,
     color: "#666",
-    marginBottom: 20,
     textAlign: "center",
-  },
-  infoBox: {
-    width: "100%",
-    backgroundColor: "#f9f9f9",
-    padding: 15,
-    borderRadius: 10,
     marginBottom: 20,
-  },
-  label: {
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  text: {
-    fontSize: 14,
-    color: "#333",
   },
   price: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#007BFF",
-    marginTop: 4,
+    marginBottom: 20,
+  },
+  bottomSection: {
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+    backgroundColor: "#fafafa",
+  },
+  quantityContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 12,
   },
   button: {
     backgroundColor: "#007BFF",
-    paddingVertical: 12,
-    paddingHorizontal: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 8,
   },
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 20,
+  },
+  quantityText: {
+    marginHorizontal: 20,
+    fontSize: 18,
+  },
+  totalText: {
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 
