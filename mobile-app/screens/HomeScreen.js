@@ -72,7 +72,16 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Snowboards</Text>
+    <TouchableOpacity
+  style={styles.profileHeader}
+  onPress={() => navigation.navigate("Profiel")}
+>
+  <Image
+    source={require("../images/avatar.png")}
+    style={styles.avatar}
+  />
+  <Text style={styles.welcome}>Welkom terug, Rocky!</Text>
+</TouchableOpacity>
 
       <View style={styles.row}>
         {products.slice(0, 2).map((product) => (
@@ -139,4 +148,19 @@ const styles = StyleSheet.create({
   blogSection: {
     marginBottom: 30,
   },
+  profileHeader: {
+  flexDirection: "row",
+  alignItems: "center",
+  marginBottom: 20,
+  gap: 12,
+},
+avatar: {
+  width: 60,
+  height: 60,
+  borderRadius: 30,
+},
+welcome: {
+  fontSize: 18,
+  fontWeight: "600",
+},
 });
