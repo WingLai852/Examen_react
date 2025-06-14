@@ -25,12 +25,6 @@ const DetailsScreen = ({ route }) => {
 
         <Text style={styles.price}>€ {numericPrice.toFixed(2)}</Text>
       </ScrollView>
-<TouchableOpacity onPress={() => {
-  setCartItems([...cartItems, currentProduct]);
-  navigation.navigate("Winkelmandje", { cartItems: [...cartItems, currentProduct], setCartItems });
-}}>
-  <Text>Voeg toe aan mandje</Text>
-</TouchableOpacity>
       <View style={styles.bottomSection}>
         <View style={styles.quantityContainer}>
           <TouchableOpacity style={styles.button} onPress={decreaseQuantity}>
