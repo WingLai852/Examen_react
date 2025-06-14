@@ -1,110 +1,117 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import React, { useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import ProductCard from "../components/ProductCard.js";
+import BlogCard from "../components/BlogCard.js";
 
 export default function HomeScreen({ navigation }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products] = useState([
+    {
+      id: "1",
+      title: "Snowboard Alpha",
+      description: "Perfect for beginners on all slopes",
+      image: require("../images/snowboard1.webp"),
+      price: "400.00",
+    },
+    {
+      id: "2",
+      title: "Snowboard Beta",
+      description: "Great control for advanced riders",
+      image: require("../images/snowboard2.webp"),
+      price: "600.00",
+    },
+    {
+      id: "3",
+      title: "Snowboard Gamma",
+      description: "All-mountain versatility",
+      image: require("../images/snowboard3.webp"),
+      price: "500.00",
+    },
+    {
+      id: "4",
+      title: "Snowboard Freestyle",
+      description: "Great for park and tricks",
+      image: require("../images/snowboard4.jpeg"),
+      price: "700.00",
+    },
+  ]);
 
-  useEffect(() => {
-    fetch("https://api.webflow.com/v2/sites/68499ef06ddb2e1ba7ef96c3/products") // <-- Vervang dit met je echte API-URL
-      .then((res) => res.json())
-      .then((data) => {
-        if (!Array.isArray(data.items)) {
-          console.error("API response bevat geen 'items'-array");
-          setProducts([]);
-          setLoading(false);
-          return;
-        }
-
-        const mapped = data.items.map((item) => {
-          const product = item.product?.fieldData;
-          const sku = item.skus?.[0]?.fieldData;
-
-          return {
-            id: item.product?.id,
-            title: product?.name || "Geen titel",
-            description: product?.description || "Geen beschrijving",
-            image: sku?.["main-image"]?.url || null,
-            price: sku?.price?.value ? (sku.price.value / 100).toFixed(2) : "Onbekend",
-          };
-        });
-
-        setProducts(mapped);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Fout bij ophalen van data:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Producten worden geladen...</Text>
-      </View>
-    );
-  }
+  const [blogs] = useState([
+    {
+      id: "1",
+      title: "Top 5 beginner snowboards",
+      image: require("../images/snowboard4.jpeg"),
+      excerpt:
+        "Nieuw op de piste? Ontdek de beste snowboards om mee te beginnen.",
+      full: "Volledige tekst blog 1...",
+    },
+    {
+      id: "2",
+      title: "Hoe kies je de juiste snowboots?",
+      image: require("../images/snowboard4.jpeg"),
+      excerpt:
+        "Comfort en grip zijn belangrijk. Hier lees je waar je op moet letten.",
+      full: "Volledige tekst blog 2...",
+    },
+    {
+      id: "3",
+      title: "Snowboard onderhoudstips",
+      image: require("../images/snowboard4.jpeg"),
+      excerpt:
+        "Met deze tips blijft je board langer goed – waxen, slijpen, en meer!",
+      full: "Volledige tekst blog 3...",
+    },
+  ]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Choose your snowboard</Text>
 
       <View style={styles.row}>
-        <ProductCard 
-          title="Snowboard 1"
-          image={require("../images/snowboard1.webp")}
-          description="Best snowboard for beginners"
-          price="400"
-          onPress={() => navigation.navigate('Details', { 
-            title: "Snowboard 1",
-            image: require("../images/snowboard1.webp"),
-            description: "Best snowboard for beginners",
-            price: "400"
-           })}
-        />
-        <ProductCard 
-          title="Snowboard 2"
-          image={require("../images/snowboard2.webp")}
-          description="Best snowboard for advanced riders"
-          price="600"
-          onPress={() => navigation.navigate('Details', { 
-            title: "Snowboard 2",
-            image: require("../images/snowboard2.webp"),
-            description: "Best snowboard for advanced riders",
-            price: "600"
-          })}
-        />
+        {products.slice(0, 2).map((product) => (
+          <ProductCard
+            key={product.id}
+            title={product.title}
+            image={product.image}
+            description={product.description}
+            price={product.price}
+            onPress={() => navigation.navigate("Details", product)}
+          />
+        ))}
       </View>
 
       <View style={styles.row}>
-        <ProductCard 
-          title="Snowboard 3"
-          image={require("../images/snowboard3.webp")}
-          description="Best snowboard for all-mountain riding"
-          price="500"
-          onPress={() => navigation.navigate('Details', { 
-            title: "Snowboard 3",
-            image: require("../images/snowboard3.webp"),
-            description: "Best snowboard for all-mountain riding",
-            price: "500"
-          })}
-        />
-        <ProductCard 
-          title="Snowboard 4"
-          image={require("../images/snowboard4.jpeg")}
-          description="Best snowboard for freestyle riding"
-          price="700"
-          onPress={() => navigation.navigate('Details', { 
-            title: "Snowboard 4",
-            image: require("../images/snowboard4.jpeg"),
-            description: "Best snowboard for freestyle riding",
-            price: "700"
-          })}
-        />
+        {products.slice(2, 4).map((product) => (
+          <ProductCard
+            key={product.id}
+            title={product.title}
+            image={product.image}
+            description={product.description}
+            price={product.price}
+            onPress={() => navigation.navigate("Details", product)}
+          />
+        ))}
+      </View>
+
+      <Text style={styles.title}>Laatste blogs</Text>
+
+      <View style={styles.blogSection}>
+        {blogs.map((blog) => (
+          <BlogCard
+            key={blog.id}
+            title={blog.title}
+            image={blog.image}
+            excerpt={blog.excerpt}
+            onPress={() => navigation.navigate("BlogDetail", blog)}
+          />
+        ))}
       </View>
 
       <StatusBar style="auto" />
@@ -128,5 +135,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
+  },
+  blogSection: {
+    marginBottom: 30,
   },
 });
