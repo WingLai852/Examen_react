@@ -5,6 +5,7 @@ import HomeScreen from "./screens/HomeScreen";
 import ProductDetails from "./screens/ProductDetails.js";
 import BlogDetailScreen from "./screens/BlogDetail";
 import ProfileScreen from "./screens/Profile.js";
+import CartScreen from "./screens/cart.js";
 
 
 const Stack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ export default function App() {
         <Stack.Screen name="Details" component={ProductDetails} />
         <Stack.Screen name="BlogDetail" component={BlogDetailScreen} />
         <Stack.Screen name="Profiel" component={ProfileScreen} />
+        <Stack.Screen name="Cart" component={CartScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

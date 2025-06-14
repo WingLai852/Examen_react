@@ -10,6 +10,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import ProductCard from "../components/ProductCard.js";
 import BlogCard from "../components/BlogCard.js";
+import { Ionicons } from "@expo/vector-icons"; // zorg dat je deze hebt geïnstalleerd
 
 export default function HomeScreen({ navigation }) {
   const [products] = useState([
@@ -70,8 +71,13 @@ export default function HomeScreen({ navigation }) {
     },
   ]);
 
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
+       {/* Winkelmandje-knop */}
+      <TouchableOpacity style={styles.cartIcon} onPress={() => navigation.navigate("Cart")}>
+        <Ionicons name="cart-outline" size={28} color="#333" />
+      </TouchableOpacity>
     <TouchableOpacity
   style={styles.profileHeader}
   onPress={() => navigation.navigate("Profiel")}
