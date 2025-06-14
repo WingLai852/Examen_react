@@ -72,7 +72,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Choose your snowboard</Text>
+      <Text style={styles.title}>Snowboards</Text>
 
       <View style={styles.row}>
         {products.slice(0, 2).map((product) => (
